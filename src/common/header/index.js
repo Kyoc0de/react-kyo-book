@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, SyncOutlined } from '@ant-design/icons';
 import { CSSTransition } from 'react-transition-group'
 import { actionCreators } from './store'
 import {
@@ -19,20 +19,42 @@ import {
     SearchInfoList
 } from './style'
 
-const getListArea = (show) => {
-    if (show) {
+const getListArea = (show, mouseIn, list, page, totalPage, dispatch) => {
+    const newList = list.toJS();
+    const pageList = []
+    //需要优化
+    if (newList.length) {
+        for (let i = ((page - 1) * 10); i < page * 10; i++) {
+            pageList.push(
+                <SearchInfoItem key={newList[i]}>{newList[i]}</SearchInfoItem>
+            )
+        }
+    }
+    if (show || mouseIn) {
         return (
-            <SearchInfo>
+            <SearchInfo
+                onMouseEnter={() => {
+                    dispatch(actionCreators.mouseEnter())
+                }}
+                onMouseLeave={() => {
+                    dispatch(actionCreators.mouseLeave())
+                }}
+            >
                 <SearchInfoTitle>热门搜索
-                <SearchInfoSwitch>换一批</SearchInfoSwitch>
+                <SearchInfoSwitch onClick={() => {
+                        // console.log(page,totalPage);
+                        if (page < totalPage) {
+                            dispatch(actionCreators.changePage(page + 1))
+                        } else {
+                            dispatch(actionCreators.changePage(1))
+                        }
+                    }}><SyncOutlined spin />换一批</SearchInfoSwitch>
+
                 </SearchInfoTitle>
                 <SearchInfoList>
-                    <SearchInfoItem>JavaScript</SearchInfoItem>
-                    <SearchInfoItem>JavaScript</SearchInfoItem>
-                    <SearchInfoItem>React</SearchInfoItem>
-                    <SearchInfoItem>Java</SearchInfoItem>
-                    <SearchInfoItem>JavaScript</SearchInfoItem>
-                    <SearchInfoItem>JavaScript</SearchInfoItem>
+                    {
+                        pageList
+                    }
                 </SearchInfoList>
             </SearchInfo>
         )
@@ -45,8 +67,11 @@ function Header() {
 
     // const [focused, setFocused] = useState(false)
     const focused = useSelector(state => state.getIn(['header', 'focused']))
+    const mouseIn = useSelector(state => state.getIn(['header', 'mouseIn']))
     // console.log(focused)
-
+    const list = useSelector(state => state.getIn(['header', 'list']))
+    const page = useSelector(state => state.getIn(['header', 'page']))
+    const totalPage = useSelector(state => state.getIn(['header', 'totalPage']))
     const dispatch = useDispatch()
 
 
@@ -67,6 +92,9 @@ function Header() {
                         <NavSearch
                             className={focused ? 'focused' : ''}
                             onFocus={() => {
+                                if (list.size === 0) {
+                                    dispatch(actionCreators.getList())
+                                }
                                 dispatch(actionCreators.searchFocus())
                                 // dispatch({
                                 //     type: "search_focus",
@@ -86,7 +114,7 @@ function Header() {
                     </CSSTransition>
                     <SearchOutlined className={focused ? 'focused iconfont' : 'iconfont'}></SearchOutlined>
                     {/* <i className="iconfont">&#xe67c;</i> */}
-                    {getListArea(focused)}
+                    {getListArea(focused, mouseIn, list, page, totalPage, dispatch)}
                 </SearchWrapper>
             </Nav>
             <Addition>
