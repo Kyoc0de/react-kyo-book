@@ -1,3 +1,6 @@
+import React, {useEffect,useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { actionCreators } from './store'
 import Topic from './components/Topic'
 import List from './components/List'
 import Recommend from './components/Recommend'
@@ -9,6 +12,13 @@ import {
  } from './style'
 
 function Home(){
+  const dispatch = useDispatch()
+  useEffect(() => {
+    console.log(dispatch);
+    dispatch(actionCreators.getHomePageInfo())
+    
+  })
+
   return(
     <HomeWrapper>
       <HomeLeft>

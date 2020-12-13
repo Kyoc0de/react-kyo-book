@@ -12,9 +12,10 @@ function App() {
     <Provider store={store}>
       <>
         <Header />
+        {/* <Home /> */}
         <BrowserRouter>
           <>
-            <Route path='/' exact render={Home}></Route>
+            <Route path='/' exact ><Home /></Route>
             <Route path='/detail' render={Detail}></Route>
           </>
         </BrowserRouter>

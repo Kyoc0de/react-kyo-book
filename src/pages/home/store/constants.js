@@ -1,0 +1,1 @@
+export const GET_HOMEPAGE_INFO = 'home/GET_HOMEPAGE_INFO'
