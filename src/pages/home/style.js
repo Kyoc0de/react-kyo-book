@@ -141,12 +141,35 @@ export const WriterItem = styled.div`
             color: #969696;
             margin: 2px 0 10px 0;
         }
-        .add {
+        /* .add {
             display: inline-block;
             margin: 0;
             float: right;
             font-size: 13px;
             color: #42c02e;
-        }
+        } */
 	}
-`;
+`
+
+export const LoadMore = styled.div`
+  cursor: pointer;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  margin: 30px 0;
+  background: #a5a5a5;
+  text-align: center;
+  border-radius: 20px;
+`
+
+export const BackTop = styled.div`
+  position: fixed;
+  right: 100px;
+  bottom: 30px;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  border: 1px solid #ccc;
+  font-size: 12px;
+`

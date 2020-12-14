@@ -1,12 +1,13 @@
 import { fromJS } from 'immutable'
-import {GET_HOMEPAGE_INFO} from './constants'
+import {GET_HOMEPAGE_INFO,GET_MORE_LIST} from './constants'
 
 const defaultState = fromJS({
   topicList: [],
   articleList: [],
   recommendList: [],
-  witerList: []
-
+  witerList: [],
+  articlePage: 1,
+  showScroll: true
 })
 
 function homeReducer(state = defaultState, action){
@@ -18,6 +19,11 @@ function homeReducer(state = defaultState, action){
         articleList: action.articleList,
         recommendList: action.recommendList,
         witerList: action.witerList
+      })
+    case GET_MORE_LIST:
+      return state.merge({
+        'articleList':state.get('articleList').concat(action.list),
+        'articlePage': action.nextPage
       })
     default: 
       return state;

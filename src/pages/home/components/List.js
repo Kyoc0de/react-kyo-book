@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { ListItem, ListInfo } from '../style'
-
+import { ListItem, ListInfo,LoadMore } from '../style'
+import { actionCreators } from '../store'
 
 function List() {
+  const dispatch = useDispatch()
   const articleList = useSelector((state) => state.getIn(['home', 'articleList']))
+  const articlePage = useSelector((state) => state.getIn(['home','articlePage']))
   return (
     <>
       {
@@ -19,7 +21,9 @@ function List() {
           )
         })
       }
-
+      <LoadMore onClick={()=>{
+        dispatch(actionCreators.getMoreList(articlePage))
+      }}>更多内容</LoadMore>
     </>
   )
 }

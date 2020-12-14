@@ -10,16 +10,15 @@ import Home from './pages/home'
 function App() {
   return (
     <Provider store={store}>
-      <>
-        <Header />
-        {/* <Home /> */}
-        <BrowserRouter>
-          <>
-            <Route path='/' exact ><Home /></Route>
-            <Route path='/detail' render={Detail}></Route>
-          </>
-        </BrowserRouter>
-      </>
+
+      {/* <Home /> */}
+      <BrowserRouter>
+        <>
+          <Header />
+          <Route path='/' exact ><Home /></Route>
+          <Route path='/detail' render={Detail}></Route>
+        </>
+      </BrowserRouter>
     </Provider>
   );
 }

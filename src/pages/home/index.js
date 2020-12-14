@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react'
+import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators } from './store'
 import Topic from './components/Topic'
@@ -8,16 +8,25 @@ import Writer from './components/Writer'
 import { 
   HomeWrapper,
   HomeLeft,
-  HomeRight
+  HomeRight,
+  BackTop
  } from './style'
 
+// function handleScrollTop(){
+//   window.scrollTo(0,0)
+// }
+
 function Home(){
+  const showScroll = useSelector((state)=>state.getIn(['home','showScroll']))
   const dispatch = useDispatch()
   useEffect(() => {
-    console.log(dispatch);
     dispatch(actionCreators.getHomePageInfo())
-    
   })
+  // useEffect(()=>{
+  //   window.addEventListener('scroll')
+  //   dispatch()
+  // })
+
 
   return(
     <HomeWrapper>
@@ -30,6 +39,13 @@ function Home(){
         <Recommend />
         <Writer />
       </HomeRight>
+      {
+        showScroll?<BackTop onClick={()=>{
+          // handleScrollTop()
+          window.scrollTo(0,0)
+        }}>顶部</BackTop>:null
+      }
+      
     </HomeWrapper>
   )
 }
